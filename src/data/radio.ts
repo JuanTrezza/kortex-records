@@ -1,0 +1,48 @@
+import type { RadioEpisode } from '../types';
+
+export const RADIO_EPISODES: RadioEpisode[] = [
+  {
+    id: 'rad-024',
+    episodeNumber: '#024',
+    title: 'MELODIC UNDERGROUND SESSIONS',
+    host: 'MASSANO',
+    duration: '01:45:00',
+    bpm: '128 BPM',
+    genre: 'TECHNO MELODIC · WAREHOUSE LIVE',
+    recordedAt: 'Distrito Audiovisual Buenos Aires',
+    description: 'Curado por Massano. Grabado en vivo en Chacarita. 1 hora y 45 minutos de pura hipnosis rítmica, percusiones oscuras y drops inéditos sin cortes comerciales.',
+  },
+  {
+    id: 'rad-023',
+    episodeNumber: '#023',
+    title: 'LIVE FROM TULUM CENOTE',
+    host: 'ANFISA LETYAGO',
+    duration: '01:52:10',
+    bpm: '128 BPM',
+    genre: 'HYPNOTIC ACID GROOVE',
+    recordedAt: 'Tulum, Quintana Roo · México',
+    description: 'Sesión especial al amanecer grabada en la selva de Tulum. Sintetizadores etéreos combinados con 909 kicks.',
+  },
+  {
+    id: 'rad-022',
+    episodeNumber: '#022',
+    title: 'MODULAR HARDWARE LIVE SET',
+    host: 'AGENTS OF TIME',
+    duration: '01:34:00',
+    bpm: '126 BPM',
+    genre: 'ANALOG HARDWARE MODULAR',
+    recordedAt: 'KØRTEX Lab BUE',
+    description: 'Improvisación en tiempo real utilizando sintetizadores analógicos Moog, Eurorack y cajas de ritmos vintage.',
+  },
+  {
+    id: 'rad-021',
+    episodeNumber: '#021',
+    title: 'AFTERLIFE REALM SESSIONS',
+    host: 'TALE OF US',
+    duration: '02:05:15',
+    bpm: '125 BPM',
+    genre: 'CINEMATIC ODYSSEY',
+    recordedAt: 'Barra Funda Warehouse · São Paulo',
+    description: 'Viaje cinemático de dos horas explorando el techno melódico más profundo y emocional de Latinoamérica.',
+  },
+];

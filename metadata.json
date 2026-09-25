@@ -1,0 +1,6 @@
+{
+  "name": "KØRTEX RECORDS",
+  "description": "Sello discográfico de techno melódico latinoamericano. Catálogo, roster de artistas, releases, eventos y tienda oficial.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
