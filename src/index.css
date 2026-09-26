@@ -64,6 +64,14 @@ body {
   margin-block: -0.1em;
 }
 
+/* tailwindcss-animate enter/exit animations (modals, drawer, menu) are skipped with reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-in,
+  .animate-out {
+    animation: none;
+  }
+}
+
 /* Scanline / noise overlay effect */
 .scanlines {
   background: linear-gradient(

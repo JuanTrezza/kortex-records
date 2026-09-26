@@ -1,54 +1,54 @@
-Escribí el README.md de este proyecto siguiendo las buenas prácticas 
-actuales: corto, honesto y pensado para que un reclutador entienda 
-qué es el proyecto en 30 segundos.
+# KØRTEX Records
 
-ANTES DE ESCRIBIR:
-- Revisá el código real (src/, package.json, vite.config.ts) y 
-  listá SOLO las features que existen y funcionan. No inventes 
-  nada ni exageres.
-- Detectá el stack exacto desde package.json.
+Sitio web de un sello de techno melódico latinoamericano, con estética editorial de agencia creativa y motion guiado por el scroll.
 
-ESTRUCTURA (en este orden, en español):
+**Demo en vivo → [juantrezza.github.io/kortex-records](https://juantrezza.github.io/kortex-records/)**
 
-1. Título + una línea que diga qué es y para quién.
-   Ejemplo de tono: "Sitio web de un sello de techno melódico 
-   latinoamericano, con estética editorial de agencia creativa."
+![KØRTEX Records](docs/preview.png)
 
-2. Link a la demo en vivo, bien visible:
-   https://juantrezza.github.io/kortex-records/
+## Qué hace
 
-3. Screenshot o GIF principal:
-   ![KØRTEX Records](docs/preview.png)
-   (dejá la referencia; yo agrego la imagen en /docs)
+- **Roster de artistas** en bento grid, con filtro por región y modal de perfil de cada artista.
+- **Releases, radio y eventos**: catálogo con preview en el reproductor, fechas con countdown y waitlist para las agotadas, y filtro por ciudad (también desde el mapa de presencia LATAM).
+- **Tienda de merch** con selección de talle y carrito persistente en `localStorage` (el checkout es simulado).
+- **Reproductor fijo** con play/pausa, seek, volumen, anterior/siguiente y modo minimizado. La reproducción es simulada con un timer: no carga audio real.
+- **Búsqueda global** de artistas, releases y eventos.
+- **Formularios** de newsletter y envío de demos con validación básica (sin backend).
 
-4. "Qué hace" — 4 a 6 bullets con las features reales y concretas.
+## Decisiones de diseño y técnicas
 
-5. "Decisiones de diseño y técnicas" — 3 a 5 bullets explicando 
-   el POR QUÉ de las elecciones importantes (bento grid, 
-   video-first, Tailwind v3, cómo está resuelto el reproductor, 
-   el carrito con localStorage, etc.). Es la sección más 
-   importante para un reclutador.
+- **Lenis + GSAP en un solo loop.** Lenis no usa su propio `requestAnimationFrame`: lo mueve `gsap.ticker` y cada frame de scroll actualiza ScrollTrigger, así el scroll suave y las animaciones nunca se desfasan. Las animaciones usan `useGSAP` (se limpian al desmontar) y `gsap.matchMedia`, así en mobile los movimientos son más cortos y no hay parallax.
+- **Scroll sin re-renders.** La barra de progreso se suscribe a Lenis y actualiza `scaleX` por `ref`. La versión anterior hacía `setState` en cada evento de scroll y volvía a renderizar toda la app.
+- **Modales y reduced-motion.** Un hook con contador (`useLenisLock`) pausa Lenis mientras hay un modal, el carrito o el menú abiertos, y `data-lenis-prevent` deja scrollear sus listas internas. Con `prefers-reduced-motion` no se inicializa Lenis, no se crean animaciones de scroll, los marquees quedan quietos y se desactivan las animaciones de entrada de los modales.
+- **Marquees continuos y reactivos.** Cada marquee tenía dos tracks que se movían −50% de su propio ancho, lo que producía un salto al reiniciar. Ahora se mueven un ancho completo (−100%) con GSAP, y su velocidad y dirección siguen a la velocidad del scroll.
+- **Estado sin librerías externas.** Carrito, reproductor y toasts viven en hooks propios (`useCart`, `useAudioPlayer`, `useToast`); el contenido es estático en `src/data/`, así el sitio se despliega como estático en GitHub Pages.
 
-6. "Stack" — una línea simple, sin tabla gigante.
+## Stack
 
-7. "Correrlo localmente" — solo los comandos necesarios:
-   git clone, npm install, npm run dev.
+React 19 + TypeScript · Vite · Tailwind CSS 3 (+ tailwindcss-animate) · GSAP (ScrollTrigger, SplitText) + Lenis · GitHub Actions → GitHub Pages
 
-8. "Estructura" — árbol breve de src/ (solo carpetas principales).
+## Correrlo localmente
 
-9. "Autor" — Juan Moreno Trezza, con links a portfolio 
-   (https://juantrezza.github.io/porfolio/), LinkedIn 
-   (https://www.linkedin.com/in/juanmorenotrezza/) y GitHub.
-   Una línea aclarando que es un proyecto de portfolio con 
-   artistas y marcas usados a modo ilustrativo.
+```bash
+git clone https://github.com/JuanTrezza/kortex-records.git
+cd kortex-records
+npm install
+npm run dev   # http://localhost:3000/kortex-records/
+```
 
-REGLAS:
-- Máximo 2-3 badges, y solo si aportan (ej: link a la demo).
-- Sin texto animado, sin rachas, sin trofeos, sin chistes.
-- Sin roadmap ni sección de "cómo contribuir".
-- Sin frases vacías tipo "increíble", "revolucionario", "premium".
-- Emojis: como mucho uno por título de sección, o ninguno.
-- Que todo el README entre en 1-2 pantallas de scroll.
+## Estructura
 
-Al terminar, decime qué features encontraste en el código que 
-te hayan parecido dudosas o incompletas, para revisarlas.
+```
+src/
+├── components/   # secciones, modales, carrito y reproductor
+├── hooks/        # carrito, reproductor, toasts, scroll y motion
+├── lib/          # motion.ts: Lenis + GSAP + ScrollTrigger
+├── data/         # contenido estático (artistas, releases, eventos, merch, radio)
+└── types/
+```
+
+## Autor
+
+**Juan Moreno Trezza** — [Portfolio](https://juantrezza.github.io/porfolio/) · [LinkedIn](https://www.linkedin.com/in/juanmorenotrezza/) · [GitHub](https://github.com/JuanTrezza)
+
+Proyecto de portfolio: los artistas, sellos y marcas que aparecen se usan a modo ilustrativo.
