@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useLenisLock } from '../hooks/useLenisLock';
 import type { CartItem } from '../types';
 
 interface CartDrawerProps {
@@ -31,6 +32,8 @@ export function CartDrawer({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose]);
 
+  useLenisLock(isOpen);
+
   if (!isOpen) return null;
 
   return (
@@ -38,6 +41,7 @@ export function CartDrawer({
       className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm transition-opacity duration-300 animate-in fade-in"
       onClick={onClose}
       role="dialog"
+      data-lenis-prevent
       aria-modal="true"
       aria-label="Bolso de compras"
     >

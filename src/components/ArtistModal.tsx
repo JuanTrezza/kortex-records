@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import type { Artist } from '../types';
+import { useLenisLock } from '../hooks/useLenisLock';
 
 interface ArtistModalProps {
   artist: Artist | null;
@@ -30,6 +31,8 @@ export function ArtistModal({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [artist, onClose]);
 
+  useLenisLock(!!artist);
+
   if (!artist) return null;
 
   return (
@@ -37,6 +40,7 @@ export function ArtistModal({
       className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in duration-200"
       onClick={onClose}
       role="dialog"
+      data-lenis-prevent
       aria-modal="true"
       aria-label={`Detalle del artista ${artist.name}`}
     >

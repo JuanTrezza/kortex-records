@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { useLenisLock } from '../hooks/useLenisLock';
+import { scrollToId } from '../lib/motion';
 import type { Artist, Release, EventItem } from '../types';
 
 interface SearchModalProps {
@@ -31,6 +33,8 @@ export function SearchModal({
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose]);
+
+  useLenisLock(isOpen);
 
   if (!isOpen) return null;
 
@@ -68,6 +72,7 @@ export function SearchModal({
       className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-start justify-center p-4 pt-20 animate-in fade-in duration-200"
       onClick={onClose}
       role="dialog"
+      data-lenis-prevent
       aria-modal="true"
       aria-label="Buscar en KØRTEX"
     >
@@ -193,8 +198,7 @@ export function SearchModal({
                     key={ev.id}
                     onClick={() => {
                       onClose();
-                      const target = document.getElementById('eventos');
-                      if (target) target.scrollIntoView({ behavior: 'smooth' });
+                      scrollToId('eventos');
                     }}
                     className="p-2.5 bg-[#1C1B1B] hover:bg-[#201F1F] flex items-center justify-between cursor-pointer border border-white/5 transition-colors"
                   >

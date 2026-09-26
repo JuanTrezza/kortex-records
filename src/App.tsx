@@ -30,7 +30,8 @@ import { MERCH_DATA } from './data/merch';
 import { useCart } from './hooks/useCart';
 import { useAudioPlayer } from './hooks/useAudioPlayer';
 import { useToast } from './hooks/useToast';
-import { useScrollProgress } from './hooks/useScrollProgress';
+import { useSmoothScroll } from './hooks/useSmoothScroll';
+import { scrollToId } from './lib/motion';
 
 import type { Artist, MerchProduct, Release } from './types';
 
@@ -39,7 +40,7 @@ import type { Artist, MerchProduct, Release } from './types';
  * Production-ready melodic techno label portal.
  */
 export default function App() {
-  const scrollProgress = useScrollProgress();
+  useSmoothScroll();
   const { toasts, showToast, removeToast } = useToast();
 
   // Shopping cart hook
@@ -170,10 +171,7 @@ export default function App() {
   const handleSelectCityFilter = (countryCode: string, cityName: string) => {
     setEventLocationFilter(countryCode);
     showToast(`Filtrando fechas para ${cityName}`, 'info');
-    const el = document.getElementById('eventos');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
+    scrollToId('eventos');
   };
 
   const handlePlayFromSearch = (release: Release) => {
@@ -189,7 +187,7 @@ export default function App() {
   return (
     <div className="relative min-h-screen bg-[#0A0A0A] text-[#E5E2E1] font-sans selection:bg-[#FF5722] selection:text-[#0A0A0A]">
       {/* Top 2px scroll progress bar */}
-      <TopProgressBar progress={scrollProgress} />
+      <TopProgressBar />
 
       {/* Custom follower cursor (Desktop only) */}
       <CustomCursor />

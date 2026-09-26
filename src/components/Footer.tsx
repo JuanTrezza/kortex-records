@@ -1,11 +1,6 @@
-export function Footer() {
-  const scrollTo = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+import { scrollToId } from '../lib/motion';
 
+export function Footer() {
   return (
     <footer className="w-full bg-[#0E0E0E] border-t border-[#353534]/60">
       {/* Top electric orange marquee bar */}
@@ -66,35 +61,35 @@ export function Footer() {
             </span>
             <button
               type="button"
-              onClick={() => scrollTo('inicio')}
+              onClick={() => scrollToId('inicio')}
               className="text-left font-body text-xs text-[#E5E2E1]/70 hover:text-white transition-colors"
             >
               Inicio Principal
             </button>
             <button
               type="button"
-              onClick={() => scrollTo('artistas')}
+              onClick={() => scrollToId('artistas')}
               className="text-left font-body text-xs text-[#E5E2E1]/70 hover:text-white transition-colors"
             >
               Roster de Artistas
             </button>
             <button
               type="button"
-              onClick={() => scrollTo('catalogo')}
+              onClick={() => scrollToId('catalogo')}
               className="text-left font-body text-xs text-[#E5E2E1]/70 hover:text-white transition-colors"
             >
               Catálogo Discográfico
             </button>
             <button
               type="button"
-              onClick={() => scrollTo('eventos')}
+              onClick={() => scrollToId('eventos')}
               className="text-left font-body text-xs text-[#E5E2E1]/70 hover:text-white transition-colors"
             >
               Fechas y Warehouse Tours
             </button>
             <button
               type="button"
-              onClick={() => scrollTo('merch')}
+              onClick={() => scrollToId('merch')}
               className="text-left font-body text-xs text-[#E5E2E1]/70 hover:text-white transition-colors"
             >
               Indumentaria & Vinilos
@@ -167,7 +162,7 @@ export function Footer() {
             </span>
             <button
               type="button"
-              onClick={() => scrollTo('contacto')}
+              onClick={() => scrollToId('contacto')}
               className="text-left font-body text-xs text-[#E5E2E1]/70 hover:text-white transition-colors"
             >
               Envío de Demos (A&R)

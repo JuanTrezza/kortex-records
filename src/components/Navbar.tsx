@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { useLenisLock } from '../hooks/useLenisLock';
+import { scrollToId } from '../lib/motion';
 
 interface NavbarProps {
   cartCount: number;
@@ -10,6 +12,7 @@ export function Navbar({ cartCount, onOpenCart, onOpenSearch }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('inicio');
+  useLenisLock(mobileMenuOpen);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -48,11 +51,7 @@ export function Navbar({ cartCount, onOpenCart, onOpenSearch }: NavbarProps) {
 
   const handleNavClick = (href: string) => {
     setMobileMenuOpen(false);
-    const targetId = href.replace('#', '');
-    const element = document.getElementById(targetId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    scrollToId(href.replace('#', ''));
   };
 
   return (
@@ -168,6 +167,7 @@ export function Navbar({ cartCount, onOpenCart, onOpenSearch }: NavbarProps) {
         <div
           className="fixed inset-0 z-40 bg-[#0E0E0E]/98 backdrop-blur-2xl flex flex-col justify-between p-6 pt-24 lg:hidden animate-in fade-in duration-200"
           role="dialog"
+          data-lenis-prevent
           aria-modal="true"
           aria-label="Menú móvil de navegación"
         >

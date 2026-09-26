@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useLenisLock } from '../hooks/useLenisLock';
 
 interface StoryModalProps {
   isOpen: boolean;
@@ -16,6 +17,8 @@ export function StoryModal({ isOpen, onClose }: StoryModalProps) {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose]);
 
+  useLenisLock(isOpen);
+
   if (!isOpen) return null;
 
   return (
@@ -23,6 +26,7 @@ export function StoryModal({ isOpen, onClose }: StoryModalProps) {
       className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in duration-200"
       onClick={onClose}
       role="dialog"
+      data-lenis-prevent
       aria-modal="true"
       aria-label="Historia y orígenes de KØRTEX"
     >

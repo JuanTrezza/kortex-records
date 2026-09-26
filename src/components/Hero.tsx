@@ -1,14 +1,8 @@
 import { useState } from 'react';
+import { scrollToId } from '../lib/motion';
 
 export function Hero() {
   const [videoError, setVideoError] = useState(false);
-
-  const scrollTo = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
   return (
     <section
@@ -74,7 +68,7 @@ export function Hero() {
             <div className="flex flex-wrap items-center gap-3">
               <button
                 type="button"
-                onClick={() => scrollTo('catalogo')}
+                onClick={() => scrollToId('catalogo')}
                 className="px-7 py-3.5 bg-[#FF5722] text-[#0A0A0A] font-badge text-lg tracking-widest uppercase hover:brightness-110 active:scale-95 transition-all flex items-center gap-2 font-bold shadow-lg"
               >
                 <span>EXPLORÁ EL CATÁLOGO</span>
@@ -85,7 +79,7 @@ export function Hero() {
 
               <button
                 type="button"
-                onClick={() => scrollTo('eventos')}
+                onClick={() => scrollToId('eventos')}
                 className="px-7 py-3.5 bg-[#2A2A2A]/80 text-[#E5E2E1] font-badge text-lg tracking-widest uppercase hover:bg-[#3A3939] active:scale-95 transition-colors border border-white/10"
               >
                 <span>PRÓXIMO EVENTO</span>
