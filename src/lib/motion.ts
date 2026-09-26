@@ -1,9 +1,10 @@
 import Lenis from 'lenis';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { SplitText } from 'gsap/SplitText';
 import { useGSAP } from '@gsap/react';
 
-gsap.registerPlugin(ScrollTrigger, useGSAP);
+gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP);
 
 /** Breakpoints for gsap.matchMedia — scroll animations only run without reduced motion. */
 export const MQ = {
@@ -11,7 +12,7 @@ export const MQ = {
   mobile: '(max-width: 767px) and (prefers-reduced-motion: no-preference)',
 };
 
-export { gsap, ScrollTrigger, useGSAP };
+export { gsap, ScrollTrigger, SplitText, useGSAP };
 
 /** Offset applied to anchor scrolling so the fixed navbar doesn't cover section tops. */
 const NAV_OFFSET = -64;
@@ -86,7 +87,17 @@ export function initSmoothScroll() {
   gsap.ticker.add(tick);
   gsap.ticker.lagSmoothing(0);
 
+  // Page height changes (filters, lazy images, fonts) shift trigger positions
+  let refreshTimer: number | undefined;
+  const resizeObserver = new ResizeObserver(() => {
+    window.clearTimeout(refreshTimer);
+    refreshTimer = window.setTimeout(() => ScrollTrigger.refresh(), 150);
+  });
+  resizeObserver.observe(document.body);
+
   return () => {
+    resizeObserver.disconnect();
+    window.clearTimeout(refreshTimer);
     gsap.ticker.remove(tick);
     gsap.ticker.lagSmoothing(500, 33);
     instance.destroy();

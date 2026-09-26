@@ -1,4 +1,5 @@
 import type { Release } from '../types';
+import { useTitleReveal } from '../hooks/useTitleReveal';
 
 interface ReleasesSectionProps {
   releases: Release[];
@@ -12,6 +13,7 @@ interface ReleasesSectionProps {
 }
 
 export function ReleasesSection({ releases, onPlayTrack }: ReleasesSectionProps) {
+  const titleRef = useTitleReveal<HTMLHeadingElement>();
   return (
     <section
       id="catalogo"
@@ -27,7 +29,10 @@ export function ReleasesSection({ releases, onPlayTrack }: ReleasesSectionProps)
                 DISCOGRAFÍA OFICIAL
               </span>
             </div>
-            <h2 className="font-headline text-3xl sm:text-5xl lg:text-6xl uppercase text-[#E5E2E1] tracking-tight mt-1">
+            <h2
+              ref={titleRef}
+              className="font-headline text-3xl sm:text-5xl lg:text-6xl uppercase text-[#E5E2E1] tracking-tight mt-1"
+            >
               ÚLTIMOS RELEASES
             </h2>
             <p className="font-body text-sm text-[#C7C6C6] mt-1">

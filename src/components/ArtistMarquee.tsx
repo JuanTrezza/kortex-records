@@ -1,4 +1,12 @@
+import { useVelocityMarquee } from '../hooks/useVelocityMarquee';
+
 export function ArtistMarquee() {
+  const marqueeRef = useVelocityMarquee<HTMLDivElement>({
+    duration: 52,
+    shift: -100,
+    pauseOnHover: true,
+  });
+
   const artists = [
     { name: 'MASSANO', isPrimary: false },
     { name: 'ANFISA LETYAGO', isPrimary: true },
@@ -17,8 +25,8 @@ export function ArtistMarquee() {
       className="w-full bg-[#0E0E0E] py-3.5 border-y border-[#353534]/50 overflow-hidden select-none"
       aria-label="Marquesina de artistas destacados"
     >
-      <div className="flex whitespace-nowrap overflow-hidden">
-        <div className="flex items-center gap-8 animate-marquee will-change-transform">
+      <div ref={marqueeRef} className="flex whitespace-nowrap overflow-hidden">
+        <div data-marquee-track className="flex w-max shrink-0 items-center gap-8 pr-8 will-change-transform">
           {artists.map((artist, idx) => (
             <div key={`m1-${idx}`} className="flex items-center gap-8">
               <span
@@ -42,7 +50,8 @@ export function ArtistMarquee() {
         {/* Cloned track for infinite loop */}
         <div
           aria-hidden="true"
-          className="flex items-center gap-8 animate-marquee will-change-transform"
+          data-marquee-track
+          className="flex w-max shrink-0 items-center gap-8 pr-8 will-change-transform"
         >
           {artists.map((artist, idx) => (
             <div key={`m2-${idx}`} className="flex items-center gap-8">

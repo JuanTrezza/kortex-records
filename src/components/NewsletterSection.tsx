@@ -1,10 +1,12 @@
 import { useState, type FormEvent } from 'react';
+import { useTitleReveal } from '../hooks/useTitleReveal';
 
 interface NewsletterSectionProps {
   onSuccessToast: (message: string) => void;
 }
 
 export function NewsletterSection({ onSuccessToast }: NewsletterSectionProps) {
+  const titleRef = useTitleReveal<HTMLHeadingElement>();
   const [email, setEmail] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
@@ -29,7 +31,10 @@ export function NewsletterSection({ onSuccessToast }: NewsletterSectionProps) {
           ACCESO ANTICIPADO // DROPS PRIVADOS
         </span>
 
-        <h2 className="font-headline text-4xl sm:text-6xl lg:text-7xl leading-tight uppercase tracking-tight text-[#0A0A0A] mt-2">
+        <h2
+          ref={titleRef}
+          className="font-headline text-4xl sm:text-6xl lg:text-7xl leading-tight uppercase tracking-tight text-[#0A0A0A] mt-2"
+        >
           NO TE PIERDAS NADA
         </h2>
 

@@ -1,8 +1,12 @@
+import { useTitleReveal } from '../hooks/useTitleReveal';
+
 interface LatamPresenceProps {
   onSelectCityFilter: (countryCode: string, cityName: string) => void;
 }
 
 export function LatamPresence({ onSelectCityFilter }: LatamPresenceProps) {
+  const titleRef = useTitleReveal<HTMLHeadingElement>();
+
   const cities = [
     { name: 'BUENOS AIRES', filter: 'argentina' },
     { name: 'CIUDAD DE MÉXICO', filter: 'mexico' },
@@ -20,7 +24,10 @@ export function LatamPresence({ onSelectCityFilter }: LatamPresenceProps) {
         <span className="font-mono text-xs text-[#FF5722] uppercase tracking-widest font-bold">
           RED Y COMUNIDAD SUBTERRÁNEA
         </span>
-        <h2 className="font-headline text-3xl sm:text-5xl uppercase text-[#E5E2E1] mt-1">
+        <h2
+          ref={titleRef}
+          className="font-headline text-3xl sm:text-5xl uppercase text-[#E5E2E1] mt-1"
+        >
           PRESENCIA REGIONAL LATAM
         </h2>
         <p className="font-body text-sm text-[#C7C6C6] max-w-xl mt-1">

@@ -58,32 +58,10 @@ body {
   color: #0A0A0A;
 }
 
-/* Marquee infinite scroll keyframes */
-@keyframes marquee {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-.animate-marquee {
-  display: flex;
-  width: max-content;
-  animation: marquee 26s linear infinite;
-  will-change: transform;
-}
-
-.animate-marquee:hover {
-  animation-play-state: paused;
-}
-
-.animate-marquee-fast {
-  display: flex;
-  width: max-content;
-  animation: marquee 16s linear infinite;
-  will-change: transform;
+/* Masked word reveal (useTitleReveal): pad the mask so accents/descenders aren't clipped */
+.reveal-word-mask {
+  padding-block: 0.1em;
+  margin-block: -0.1em;
 }
 
 /* Scanline / noise overlay effect */

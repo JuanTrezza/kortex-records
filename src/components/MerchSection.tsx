@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { MerchProduct } from '../types';
+import { useTitleReveal } from '../hooks/useTitleReveal';
 
 interface MerchSectionProps {
   products: MerchProduct[];
@@ -16,6 +17,7 @@ export function MerchSection({
   onOpenCart,
   onNotifyStock,
 }: MerchSectionProps) {
+  const titleRef = useTitleReveal<HTMLHeadingElement>();
   // Store selected size per product id
   const [selectedSizes, setSelectedSizes] = useState<Record<string, string>>({
     'merch-hoodie-black': 'M',
@@ -42,7 +44,10 @@ export function MerchSection({
             <span className="font-mono text-xs text-[#FF5722] uppercase tracking-widest font-semibold">
               SHOP · LIMITED EDITIONS
             </span>
-            <h2 className="font-headline text-3xl sm:text-5xl lg:text-6xl uppercase text-[#E5E2E1] tracking-tight mt-1">
+            <h2
+              ref={titleRef}
+              className="font-headline text-3xl sm:text-5xl lg:text-6xl uppercase text-[#E5E2E1] tracking-tight mt-1"
+            >
               MERCH OFICIAL
             </h2>
             <p className="font-body text-sm text-[#C7C6C6] mt-1">

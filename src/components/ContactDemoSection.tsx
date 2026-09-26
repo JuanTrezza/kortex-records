@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react';
+import { useTitleReveal } from '../hooks/useTitleReveal';
 
 interface ContactDemoSectionProps {
   onCopyEmail: (email: string) => void;
@@ -9,6 +10,7 @@ export function ContactDemoSection({
   onCopyEmail,
   onDemoSubmitted,
 }: ContactDemoSectionProps) {
+  const titleRef = useTitleReveal<HTMLHeadingElement>();
   const [artistName, setArtistName] = useState('');
   const [email, setEmail] = useState('');
   const [country, setCountry] = useState('Argentina');
@@ -70,7 +72,10 @@ export function ContactDemoSection({
               <span className="font-mono text-xs text-[#FF5722] uppercase tracking-widest font-bold">
                 CONTACTO & BOOKING
               </span>
-              <h2 className="font-headline text-3xl sm:text-5xl uppercase text-[#E5E2E1] tracking-tight mt-1 mb-6">
+              <h2
+                ref={titleRef}
+                className="font-headline text-3xl sm:text-5xl uppercase text-[#E5E2E1] tracking-tight mt-1 mb-6"
+              >
                 CONECTÁ CON EL SELLO
               </h2>
               <p className="font-body text-sm text-[#C7C6C6] mb-8 leading-relaxed">

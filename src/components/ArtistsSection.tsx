@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import type { Artist, ArtistCountry } from '../types';
+import { useTitleReveal } from '../hooks/useTitleReveal';
+import { gsap, MQ, ScrollTrigger, useGSAP } from '../lib/motion';
 
 interface ArtistsSectionProps {
   artists: Artist[];
@@ -18,6 +20,7 @@ export function ArtistsSection({
   onSelectArtist,
   onPlayTrack,
 }: ArtistsSectionProps) {
+  const titleRef = useTitleReveal<HTMLHeadingElement>();
   const [activeFilter, setActiveFilter] = useState<'all' | ArtistCountry>('all');
 
   const filterTabs: Array<{ id: 'all' | ArtistCountry; label: string }> = [
@@ -33,6 +36,34 @@ export function ArtistsSection({
     return artist.country === activeFilter;
   });
 
+  // Staggered bento entrance, replayed whenever the country filter changes
+  const gridRef = useRef<HTMLDivElement>(null);
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add({ desktop: MQ.desktop, mobile: MQ.mobile }, (ctx) => {
+        const { desktop } = ctx.conditions as { desktop: boolean };
+        const cards = gsap.utils.toArray<HTMLElement>('[data-artist-card]');
+
+        gsap.set(cards, { autoAlpha: 0, y: desktop ? 60 : 24, overwrite: true });
+        ScrollTrigger.batch(cards, {
+          start: 'top 92%',
+          once: true,
+          onEnter: (batch) =>
+            gsap.to(batch, {
+              autoAlpha: 1,
+              y: 0,
+              duration: desktop ? 0.9 : 0.6,
+              stagger: desktop ? 0.09 : 0.06,
+              ease: 'power3.out',
+              overwrite: true,
+            }),
+        });
+      });
+    },
+    { scope: gridRef, dependencies: [activeFilter], revertOnUpdate: true }
+  );
+
   return (
     <section
       id="artistas"
@@ -45,7 +76,10 @@ export function ArtistsSection({
             <span className="font-mono text-xs text-[#FF5722] uppercase tracking-widest font-semibold">
               ROSTER EXCLUSIVO // ARTISTAS
             </span>
-            <h2 className="font-headline text-3xl sm:text-5xl lg:text-6xl uppercase text-[#E5E2E1] tracking-tight mt-1">
+            <h2
+              ref={titleRef}
+              className="font-headline text-3xl sm:text-5xl lg:text-6xl uppercase text-[#E5E2E1] tracking-tight mt-1"
+            >
               NUESTROS ARTISTAS
             </h2>
             <p className="font-body text-sm text-[#C7C6C6] mt-1">
@@ -76,7 +110,10 @@ export function ArtistsSection({
         </div>
 
         {/* Asymmetric Bento Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 auto-rows-[230px]">
+        <div
+          ref={gridRef}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 auto-rows-[230px]"
+        >
           {filteredArtists.map((artist) => {
             const isFeatured = artist.id === 'massano';
             const isTall = artist.id === 'adam';
@@ -92,6 +129,7 @@ export function ArtistsSection({
             return (
               <div
                 key={artist.id}
+                data-artist-card
                 onClick={() => onSelectArtist(artist)}
                 className={`relative group overflow-hidden bg-[#1C1B1B] cursor-pointer border border-white/5 shadow-md ${spanClasses}`}
                 role="button"

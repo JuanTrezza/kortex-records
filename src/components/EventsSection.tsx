@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import type { EventItem } from '../types';
+import { useTitleReveal } from '../hooks/useTitleReveal';
 
 interface EventsSectionProps {
   events: EventItem[];
@@ -14,6 +15,7 @@ export function EventsSection({
   onBuyTicket,
   onJoinWaitlist,
 }: EventsSectionProps) {
+  const titleRef = useTitleReveal<HTMLHeadingElement>();
   const [filter, setFilter] = useState<string>(selectedLocationFilter || 'all');
 
   // Sync when parent updates selectedLocationFilter (e.g. from LatamPresence pills)
@@ -85,7 +87,10 @@ export function EventsSection({
             <span className="font-mono text-xs text-[#FF5722] uppercase tracking-widest font-semibold">
               [TOUR & WAREHOUSE CIRKUIT]
             </span>
-            <h2 className="font-headline text-3xl sm:text-5xl lg:text-6xl uppercase text-[#E5E2E1] tracking-tight mt-1">
+            <h2
+              ref={titleRef}
+              className="font-headline text-3xl sm:text-5xl lg:text-6xl uppercase text-[#E5E2E1] tracking-tight mt-1"
+            >
               PRÓXIMOS EVENTOS
             </h2>
             <p className="font-body text-sm text-[#C7C6C6] mt-1">

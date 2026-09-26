@@ -1,4 +1,8 @@
+import { useVelocityMarquee } from '../hooks/useVelocityMarquee';
+
 export function SponsorsMarquee() {
+  const marqueeRef = useVelocityMarquee<HTMLDivElement>({ duration: 32, shift: -100 });
+
   const sponsors = [
     'BOILER ROOM',
     'RESIDENT ADVISOR',
@@ -21,8 +25,11 @@ export function SponsorsMarquee() {
         </span>
       </div>
 
-      <div className="flex whitespace-nowrap overflow-hidden opacity-75 hover:opacity-100 transition-opacity">
-        <div className="flex items-center gap-12 animate-marquee-fast will-change-transform">
+      <div
+        ref={marqueeRef}
+        className="flex whitespace-nowrap overflow-hidden opacity-75 hover:opacity-100 transition-opacity"
+      >
+        <div data-marquee-track className="flex w-max shrink-0 items-center gap-12 pr-12 will-change-transform">
           {sponsors.map((sponsor, idx) => (
             <div key={`sp1-${idx}`} className="flex items-center gap-12">
               <span className="font-headline text-2xl md:text-3xl text-[#C7C6C6] uppercase tracking-widest hover:text-[#FF5722] transition-colors">
@@ -36,7 +43,8 @@ export function SponsorsMarquee() {
         {/* Cloned track for infinite loop */}
         <div
           aria-hidden="true"
-          className="flex items-center gap-12 animate-marquee-fast will-change-transform"
+          data-marquee-track
+          className="flex w-max shrink-0 items-center gap-12 pr-12 will-change-transform"
         >
           {sponsors.map((sponsor, idx) => (
             <div key={`sp2-${idx}`} className="flex items-center gap-12">

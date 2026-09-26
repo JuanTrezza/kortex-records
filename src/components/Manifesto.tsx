@@ -1,11 +1,13 @@
 import { useRef } from 'react';
 import { gsap, MQ, useGSAP } from '../lib/motion';
+import { useTitleReveal } from '../hooks/useTitleReveal';
 
 interface ManifestoProps {
   onOpenStoryModal: () => void;
 }
 
 export function Manifesto({ onOpenStoryModal }: ManifestoProps) {
+  const titleRef = useTitleReveal<HTMLHeadingElement>();
   const sectionRef = useRef<HTMLElement>(null);
   const numberRef = useRef<HTMLSpanElement>(null);
 
@@ -66,7 +68,10 @@ export function Manifesto({ onOpenStoryModal }: ManifestoProps) {
             </span>
           </div>
 
-          <h2 className="font-headline text-3xl sm:text-4xl lg:text-5xl uppercase text-[#E5E2E1] tracking-tight max-w-2xl leading-none">
+          <h2
+            ref={titleRef}
+            className="font-headline text-3xl sm:text-4xl lg:text-5xl uppercase text-[#E5E2E1] tracking-tight max-w-2xl leading-none"
+          >
             SOMOS EL SONIDO QUE INCOMODA
           </h2>
 

@@ -1,11 +1,26 @@
+import { useTitleReveal } from '../hooks/useTitleReveal';
+import { useVelocityMarquee } from '../hooks/useVelocityMarquee';
 import { scrollToId } from '../lib/motion';
 
 export function Footer() {
+  const marqueeRef = useVelocityMarquee<HTMLDivElement>({
+    duration: 26,
+    shift: -50,
+    pauseOnHover: true,
+  });
+  const titleRef = useTitleReveal<HTMLHeadingElement>();
+
   return (
     <footer className="w-full bg-[#0E0E0E] border-t border-[#353534]/60">
       {/* Top electric orange marquee bar */}
-      <div className="w-full overflow-hidden bg-[#FF5722] py-2 border-b border-[#353534]/40 select-none">
-        <div className="flex whitespace-nowrap gap-8 font-headline text-lg sm:text-xl uppercase text-[#0A0A0A] animate-marquee will-change-transform">
+      <div
+        ref={marqueeRef}
+        className="w-full overflow-hidden bg-[#FF5722] py-2 border-b border-[#353534]/40 select-none"
+      >
+        <div
+          data-marquee-track
+          className="flex w-max whitespace-nowrap gap-8 pr-8 font-headline text-lg sm:text-xl uppercase text-[#0A0A0A] will-change-transform"
+        >
           <span className="flex items-center gap-4">
             <span>KØRTEX WORLDWIDE BROADCAST</span>
             <span className="text-[#0A0A0A] font-bold">*</span>
@@ -44,7 +59,10 @@ export function Footer() {
       <div className="w-full px-4 md:px-8 lg:px-12 py-16 max-w-7xl mx-auto">
         {/* Huge Brand Banner */}
         <div className="mb-14 border-b border-[#353534]/60 pb-8">
-          <h2 className="font-headline text-5xl sm:text-7xl md:text-9xl tracking-tight text-[#E5E2E1] uppercase">
+          <h2
+            ref={titleRef}
+            className="font-headline text-5xl sm:text-7xl md:text-9xl tracking-tight text-[#E5E2E1] uppercase"
+          >
             KØRTEX<span className="text-[#FF5722]">®</span>
           </h2>
           <p className="font-mono text-xs sm:text-sm text-[#C7C6C6]/80 uppercase mt-2">
