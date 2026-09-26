@@ -1,10 +1,40 @@
+import { useRef } from 'react';
+import { gsap, MQ, useGSAP } from '../lib/motion';
+
 interface ManifestoProps {
   onOpenStoryModal: () => void;
 }
 
 export function Manifesto({ onOpenStoryModal }: ManifestoProps) {
+  const sectionRef = useRef<HTMLElement>(null);
+  const numberRef = useRef<HTMLSpanElement>(null);
+
+  // Gentle parallax on the giant "01" (desktop only)
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add(MQ.desktop, () => {
+        gsap.fromTo(
+          numberRef.current,
+          { yPercent: 22 },
+          {
+            yPercent: -22,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: true,
+            },
+          }
+        );
+      });
+    },
+    { scope: sectionRef }
+  );
+
   return (
-    <section className="w-full bg-[#1C1B1B] px-4 md:px-8 lg:px-12 py-20 lg:py-28 relative overflow-hidden">
+    <section ref={sectionRef} className="w-full bg-[#1C1B1B] px-4 md:px-8 lg:px-12 py-20 lg:py-28 relative overflow-hidden">
       {/* Subtle glow background element */}
       <div
         className="absolute -right-20 -bottom-20 w-96 h-96 bg-[#FF5722]/10 rounded-full blur-3xl pointer-events-none"
@@ -14,7 +44,10 @@ export function Manifesto({ onOpenStoryModal }: ManifestoProps) {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative z-10 max-w-7xl mx-auto">
         {/* Huge typographic number 01 */}
         <div className="lg:col-span-4 flex flex-col justify-between">
-          <span className="font-headline text-[130px] sm:text-[180px] lg:text-[220px] leading-[0.75] text-[#FF5722] select-none tracking-tighter">
+          <span
+            ref={numberRef}
+            className="font-headline text-[130px] sm:text-[180px] lg:text-[220px] leading-[0.75] text-[#FF5722] select-none tracking-tighter"
+          >
             01
           </span>
           <div className="mt-4 flex items-center gap-3">

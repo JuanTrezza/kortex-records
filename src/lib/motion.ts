@@ -5,6 +5,14 @@ import { useGSAP } from '@gsap/react';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
+/** Breakpoints for gsap.matchMedia — scroll animations only run without reduced motion. */
+export const MQ = {
+  desktop: '(min-width: 768px) and (prefers-reduced-motion: no-preference)',
+  mobile: '(max-width: 767px) and (prefers-reduced-motion: no-preference)',
+};
+
+export { gsap, ScrollTrigger, useGSAP };
+
 /** Offset applied to anchor scrolling so the fixed navbar doesn't cover section tops. */
 const NAV_OFFSET = -64;
 

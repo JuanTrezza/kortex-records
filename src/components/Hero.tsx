@@ -1,16 +1,54 @@
-import { useState } from 'react';
-import { scrollToId } from '../lib/motion';
+import { useRef, useState } from 'react';
+import { gsap, MQ, scrollToId, useGSAP } from '../lib/motion';
 
 export function Hero() {
   const [videoError, setVideoError] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  const mediaRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+
+  // Scroll-driven parallax: background drifts slower than content,
+  // title lifts, shrinks and dims as the hero leaves the viewport.
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      const scrollTrigger = {
+        trigger: sectionRef.current,
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true,
+      };
+
+      mm.add(MQ.desktop, () => {
+        gsap.to(mediaRef.current, { yPercent: 25, ease: 'none', scrollTrigger });
+        gsap.to(titleRef.current, {
+          y: -90,
+          scale: 0.9,
+          opacity: 0.25,
+          transformOrigin: 'left bottom',
+          ease: 'none',
+          scrollTrigger,
+        });
+      });
+
+      mm.add(MQ.mobile, () => {
+        gsap.to(titleRef.current, { y: -30, opacity: 0.5, ease: 'none', scrollTrigger });
+      });
+    },
+    { scope: sectionRef }
+  );
 
   return (
     <section
+      ref={sectionRef}
       id="inicio"
       className="relative w-full overflow-hidden bg-[#0E0E0E] pt-28 md:pt-32 pb-16 min-h-[90vh] lg:min-h-[940px] flex flex-col justify-between"
     >
       {/* Cinematic Looping Video Background with fallback */}
-      <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none select-none z-0">
+      <div
+        ref={mediaRef}
+        className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none select-none z-0 will-change-transform"
+      >
         {!videoError ? (
           <video
             autoPlay
@@ -56,7 +94,10 @@ export function Hero() {
 
         {/* Monumental Architectural Typography */}
         <div className="w-full">
-          <h1 className="font-headline text-[72px] sm:text-[110px] md:text-[148px] lg:text-[180px] xl:text-[210px] leading-[0.82] tracking-tighter uppercase text-[#E5E2E1] select-none break-words">
+          <h1
+            ref={titleRef}
+            className="font-headline text-[72px] sm:text-[110px] md:text-[148px] lg:text-[180px] xl:text-[210px] leading-[0.82] tracking-tighter uppercase text-[#E5E2E1] select-none break-words"
+          >
             KØRTEX<span className="text-[#FF5722]">®</span>
           </h1>
 
